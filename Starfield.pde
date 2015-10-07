@@ -33,7 +33,7 @@ class NormalParticle implements Particle{
 	public void move() {
 		pX = (Math.cos(pAngle)*pSpeed + (pX-screenSize/2)/depth + pX);
 		pY = (Math.sin(pAngle)*pSpeed + (pY-screenSize/2)/depth + pY);
-		pSize = pSize + 0.05;
+		pSize = pSize + 0.01;
 	}
 	public void show() {
 		noStroke();
