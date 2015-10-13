@@ -1,6 +1,6 @@
 int screenSize = 600;
 double trueSpeed = 0.5;
-double trueSize = 0.2;
+double trueSize = 0.3;
 double trueDepth = 30;
 double trueSizeIncrease = 0.015;
 float mX;
