@@ -1,5 +1,5 @@
 int screenSize = 600;
-double trueSpeed = 0.5;
+double trueSpeed = 0.3;
 double trueSize = 0.3;
 double trueDepth = 30;
 double trueSizeIncrease = 0.015;
@@ -9,23 +9,24 @@ Particle[] particles;
 
 public void setup()
 {
-	background(0);
+	background(255);
 	size(screenSize,screenSize);
 	particles = new Particle[1000];
 	
 	for (int i = 0; i < particles.length; i++) {
 		particles[i] = new NormalParticle();
 	}
-	for (int i = 0; i < particles.length/100; i++) {
+	for (int i = 0; i < particles.length/50; i++) {
 		particles[i] = new OddballParticle();
 	}
 	for (int i = 0; i < particles.length/500; i++) {
 		particles[i] = new JumboParticle();
 	}
 }
+
 void draw()
 {
-	fill(0,150);
+	fill((float)(trueSpeed*10)-3,150);
 	rect(-100,-100,screenSize+200,screenSize+200);
 	for (int i = 0; i < particles.length; i++) {
 		particles[i].move();
@@ -34,11 +35,13 @@ void draw()
 	}
 	text("Speed: " + (int)(trueSpeed*100), 10,10);
 }
+
 interface Particle {
 	public void show();
 	public void move();
 	public void respawn();
 }
+
 class NormalParticle implements Particle{
 	double pX, pY, pAngle, pSpeed, pSize, depth;
 	int extraPix;
@@ -75,13 +78,14 @@ class NormalParticle implements Particle{
 		}
 	}
 }
+
 class OddballParticle implements Particle {
 	double pX, pY, pAngle, pSpeed, pSize, depth, pColor, pRand;
 	int extraPix;
 	OddballParticle() {
 		pX = Math.random()*screenSize;
 		pY = Math.random()*screenSize;
-		pRand = (Math.random()*10)+1;
+		pRand = (Math.random()*10)+5/trueSpeed;
 		pSpeed = trueSpeed/pRand*10;
 		pAngle = Math.random()*180;
 		pSize = trueSize;
@@ -93,7 +97,7 @@ class OddballParticle implements Particle {
 		pSpeed = trueSpeed;
 		pX = (Math.cos(pAngle)*((Math.random()*4)-2+pSpeed*2) + (pX-screenSize/2)/depth + pX);
 		pY = (Math.sin(pAngle)*((Math.random()*4)-2+pSpeed*2) + (pY-screenSize/2)/depth + pY);
-		pSize = pSize + trueSizeIncrease*pRand*(pSpeed/2);
+		pSize = pSize + trueSizeIncrease*pRand*(pSpeed/1);
 	}
 	public void show() {
 		translate(mX/2,mY/2);
@@ -112,18 +116,19 @@ class OddballParticle implements Particle {
 			pAngle = Math.random()*180;
 			pSize = trueSize;
 			pColor = Math.random()*256;
-			pRand = (Math.random()*10)+1;
+			pRand = (Math.random()*10)+5/trueSpeed;
 			extraPix = (int)(Math.random()*100000)+screenSize/2;
 		}
 	}
 }
+
 class JumboParticle implements Particle {
 	double pX, pY, pAngle, pSpeed, pSize, depth, pColR, pColG, pColB, pRand;
 	int extraPix, extraPix1;
 	JumboParticle() {
 		pX = Math.random()*screenSize;
 		pY = Math.random()*screenSize;
-		pRand = (Math.random()*50)+100;
+		pRand = (Math.random()*50)+100/trueSpeed;
 		pSpeed = trueSpeed/pRand*200;
 		pAngle = Math.random()*180;
 		pSize = trueSize;
@@ -137,7 +142,7 @@ class JumboParticle implements Particle {
 		pSpeed = trueSpeed;
 		pX = (Math.cos(pAngle)*((Math.random()*4)-2+pSpeed*2) + (pX-screenSize/2)/depth + pX);
 		pY = (Math.sin(pAngle)*((Math.random()*4)-2+pSpeed*2) + (pY-screenSize/2)/depth + pY);
-		pSize = pSize + trueSizeIncrease*pRand*(pSpeed/2);
+		pSize = pSize + trueSizeIncrease*pRand*(pSpeed/1);
 	}
 	public void move() {
 		translate(mX/2,mY/2);
@@ -158,7 +163,7 @@ class JumboParticle implements Particle {
 			pColR = Math.random()*256;
 			pColG = Math.random()*256;
 			pColB = Math.random()*256;
-			pRand = (Math.random()*50)+100;
+			pRand = (Math.random()*50)+100/trueSpeed;
 			extraPix = (int)(Math.random()*1000000)+screenSize/2;
 		}	
 	}
@@ -170,10 +175,10 @@ void mouseMoved() {
 }
 
 void keyPressed() {
-	if (keyCode == UP && trueSpeed < 2) {
-		trueSpeed = trueSpeed + 0.01;
+	if (keyCode == UP && trueSpeed < 3) {
+		trueSpeed = trueSpeed + 0.025;
 	}
-	if (keyCode == DOWN && trueSpeed > 0.5) {
-		trueSpeed = trueSpeed - 0.01;
+	if (keyCode == DOWN && trueSpeed > 0.3) {
+		trueSpeed = trueSpeed - 0.025;
 	}
 }
